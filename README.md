@@ -12,7 +12,7 @@ This started as a project to detect movement at a garden gate, that would then s
 - Runs a local webserver to allow realtime video streaming using e.g. MotionEye or Home Assistant (or just a browser).
 - Camera settings can be maintained using MQTT. Camera settings are stored in a SPIFFS file, and are used to initialize the camera after startup.
 - App configuration is maintained using MQTT. Configuration settings are stored in a SPIFFS file in JSON 6 format, and are loaded on startup. 
-- The board status, including WiFi strength, SoC core temperature, time since last restart, etc. is published using MQTT.
+- The board status, including WiFi strength, SoC Core temperature, time since last restart, etc. is published using MQTT.
 
 ## Wiring
 **Remarks**:
@@ -37,32 +37,34 @@ Gnd | DS18B20 (-) Pin <br> AM312 (-) Pin <br> Power Source (-)
 
 ## Camera Settings
 
-Function |	Meaning |	Values | Default
+Function |	Description |	Values | Default
 -- | -- | -- | --
-set_brightness() |	Set brightness |	-2 to 2 | 0
-set_contrast() |	Set contrast |	-2 to 2 | 0
-set_saturation() |	Set saturation |	-2 to 2 | 0
-set_special_effect() |	Set a special effect |	0 – No Effect <br> 1 – Negative <br>  2 – Grayscale <br>  3 – Red Tint <br>  4 – Green Tint <br>  5 – Blue Tint <br>  6 – Sepia | 0
-set_whitebal() |	Set white balance |	0 – disable <br> 1 – enable
-set_awb_gain() |	Set white balance gain |	0 – disable <br> 1 – enable
-set_wb_mode() |	Set white balance | mode	0 – Auto <br> 1 – Sunny <br> 2 – Cloudy <br> 3 – Office <br> 4 – Home
-set_exposure_ctrl() |	Set exposure control | 0 – disable <br> 1 – enable
-set_aec2()	| night mode enable (?) |	0 – disable <br> 1 – enable | 0
-set_ae_level()	| Automatic exposure level |	-2 to 2
-set_aec_value()	| Automatic exposure correction |	0 to 1200
-set_gain_ctrl()	| Gain control |	0 – disable <br> 1 – enable
-set_agc_gain()	| Automatic gain control |	0 to 30
-set_gainceiling()	| |	0 to 6
-set_bpc()	| Black pixel correction |	0 – disable <br> 1 – enable
-set_wpc()	| White pixel correction |	0 – disable <br> 1 – enable
-set_raw_gma() | |	0 – disable <br> 1 – enable
-set_lenc() |	Set lens correction |	0 – disable <br> 1 – enable | 0
-set_hmirror() |	Horizontal mirror |	0 – disable <br> 1 – enable | 0
-set_vflip()	| Vertical flip |	0 – disable <br> 1 – enable | 0
-set_dcw()	| |	0 – disable <br> 1 – enable
-set_colorbar() |	Set a colorbar | 0 – disable <br> 1 – enable | 0    
-set_framesize() |	Set framesize (0-10) | FRAMESIZE_QVGA (320 x 240) <br> FRAMESIZE_CIF (352 x 288) <br> FRAMESIZE_VGA (640 x 480) <br> FRAMESIZE_SVGA (800 x 600) <br> FRAMESIZE_XGA (1024 x 768) <br> FRAMESIZE_SXGA (1280 x 1024) <br> FRAMESIZE_UXGA (1600 x 1200) | 6 (VGA(640x480))    
-set_quality() |	Set quality | 10 - 36 | 10 (high)    
+set_quality() |	Quality | 10 - 36 | 10 (high)    
+set_brightness() |	Brightness |	-2 to 2 | 0
+set_contrast() |	Contrast |	-2 to 2 | 0
+set_saturation() |	Saturation |	-2 to 2 | 0
+set_special_effect() |	Special Effect |	0 – No Effect <br> 1 – Negative <br>  2 – Grayscale <br>  3 – Red Tint <br>  4 – Green Tint <br>  5 – Blue Tint <br>  6 – Sepia | 0
+set_whitebal() |	Enable White Balance |	0 – disable <br> 1 – enable | 1
+set_awb_gain() |	Enable White Balance Gain |	0 – disable <br> 1 – enable | 1
+set_wb_mode() |	White Balance Mode | 0 – Auto <br> 1 – Sunny <br> 2 – Cloudy <br> 3 – Office <br> 4 – Home | 0 (Auto)
+set_exposure_ctrl() |	Enable Exposure Control | 0 – disable <br> 1 – enable | 1
+set_aec2()	| AEC (night mode?) |	0 – disable <br> 1 – enable | 0
+set_ae_level()	| Automatic Exposure Level |	-2 to 2 | 0
+set_aec_value()	| Automatic Exposure Correction |	0 to 1200 | 204
+set_gain_ctrl()	| Enable Gain Control |	0 – disable <br> 1 – enable | 1
+set_agc_gain()	| Gain Level |	0 to 30 | 5
+set_gainceiling()	| Gain Ceiling (2x - 128x) |	0 to 6 | 0
+set_bpc()	| Black Pixel Correction |	0 – disable <br> 1 – enable
+set_wpc()	| White Pixel Correction |	0 – disable <br> 1 – enable | 1
+set_raw_gma() | Enable Raw GMA |	0 – disable <br> 1 – enable | 1
+set_lenc() |	Lens Correction |	0 – disable <br> 1 – enable | 1
+set_hmirror() |	Horizontal Mirror |	0 – disable <br> 1 – enable | 0
+set_vflip()	| Vertical Flip |	0 – disable <br> 1 – enable | 0
+set_dcw()	| DCW (Downsize EN) |	0 – disable <br> 1 – enable | 1
+set_colorbar() |	Show Colorbar | 0 – disable <br> 1 – enable | -
+face_detect() |	Face Detection | 0 – disable <br> 1 – enable | -
+face_recognize() | Face Recognition | 0 – disable <br> 1 – enable | -
+set_framesize() |	Resolution (0-10) | 10	UXGA(1600x1200) <br> 9	SXGA(1280x1024) <br> 8	XGA(1024x768) <br> 7	SVGA(800x600) <br> 6	VGA(640x480) <br> 5	CIF(400x296) <br> 4	QVGA(320x240) <br> 3	HQVGA(240x176) <br> 0	QQVGA(160x120) | 6 VGA(640x480)    
 
 **Reference**:   
 - [OV2640](https://www.uctronics.com/download/cam_module/OV2640DS.pdf)
@@ -89,6 +91,7 @@ Information include e.g.
 4. SoC Core Temperature
 
 ![HA Status Identity](https://github.com/JJFourie/ESP32Cam-MQTT-SPIFFS-PIR/blob/main/Images/HA_GateMonitor_Status.jpg)    
+    
 Image of the `Status` identity in Home Assistant.
 
 ## Node Red Integration
