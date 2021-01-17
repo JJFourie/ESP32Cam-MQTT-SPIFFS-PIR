@@ -65,32 +65,32 @@ This is a list of topics that the ESP32-Cam can publish:
     
 1. ***App (GateMonitor)* State**    
 Movement detected.  (translates to "set" in Home Assistant)    
-- **Topic**: `gate/motion/state`    
-- **Payload**: `"on"`    
+    - **Topic**: `gate/motion/state`    
+    - **Payload**: `"on"`    
 
 2. ***Temperature* State**    
 Current temperature reading.
-- **Topic**: `gate/temperature/state`    
-- **Payload**: `<value>`    
+    - **Topic**: `gate/temperature/state`    
+    - **Payload**: `<value>`    
 
 3. ***App (GateMonitor)* Configuration**    
 List of current configuration settings, in JSON format (name : value)    
-e.g. Camera-Enabled, PIR-Enabled, Temperature-Reading-Interval, etc.     
-- **Topic**: `gate/monitor/config`    
-- **Payload**: `<settings>`    
+e.g. Camera-Enabled, PIR-Enabled, Temperature-Reading-Interval, etc. 
+    - **Topic**: `gate/monitor/config`    
+    - **Payload**: `<settings>`    
 
 4. ***App (GateMonitor)* State**    
 List of parametry values reflecting App current state, in JSON format (name : value)    
-e.g. RSSI, WiFi%, Core Temperature, Uptime, Last-Start-Reason, Memory, ..    
-- **Topic**: `gate/monitor/state`    
-- **Payload**: `<values>`    
+e.g. RSSI, WiFi%, Core Temperature, Uptime, Last-Start-Reason, Memory, .. 
+    - **Topic**: `gate/monitor/state`    
+    - **Payload**: `<values>`    
 
 5. ***App (GateMonitor)* WiFi**    
-Current WiFi RSSI value (lightweight alternative to full state)    
-- **Topic**: `gate/monitor/wifi`    
-- **Payload**: `<value>`    
+Current WiFi RSSI value (lightweight alternative to full state) 
+    - **Topic**: `gate/monitor/wifi`    
+    - **Payload**: `<value>`    
 
 6. ***Camera* State**    
-Events related to the camera    
-- **Topic**: `gate/camera/state`    
-- **Payload**: `"photo"`    - photo was uploaded
+Events related to the camera 
+    - **Topic**: `gate/camera/state`    
+    - **Payload**: `"photo"`    - photo was uploaded
