@@ -2,16 +2,17 @@
 
 A ESP32-Cam based project that uses a PIR sensor to trigger photo upload to a web server. The PIR motion triggers are also broadcast using MQTT. The sketch runs a local webserver making live video streaming possible. It also publishes the ambient temperature readings from a connected temperature sensor. Configuration and camera settings are maintained through MQTT, and are stored in local SPIFFS files so they can survive a restart.
 
-This started as a project to detect movement at a garden gate, that would then sound a notification in the house and switch on a garden light when dark. Once I decided to use a ESP32-Cam, it evolved to include photo capture and video streaming. I use Node Red to upload the captured photo to a Telegram bot. I then slapped on a temperature sensor to upload the outside temperature to Home Assistant. 
+This started as a project to detect movement at a garden gate, that would then sound a notification in the house and switch on a garden light when dark. Once I decided to use a ESP32-Cam, it evolved to include photo capture and video streaming. I then slapped on a temperature sensor to upload the outside temperature to Home Assistant. Node Red is used to upload the captured photo to a Telegram bot. 
 
 ## Project Features
-- C++ sketch for a ESP32-Cam board. 
-- PIR sensor (AM312) triggers photo capture and photo upload to (PHP) web server. 
-- Temperature sensor (DS18B20) readings are published using MQTT.
-- Motion triggers are published using MQTT. 
-- Runs a local webserver to allow realtime video streaming using e.g. MotionEye or Home Assistant (or just a browser).
-- Camera settings can be maintained using MQTT. Camera settings are stored in a SPIFFS file, and are used to initialize the camera after startup.
-- App configuration is maintained using MQTT. Configuration settings are stored in a SPIFFS file in JSON 6 format, and are loaded on startup. 
+- C++ sketch for a **ESP32-Cam** board. 
+- PIR motion sensor (**AM312**) events published using MQTT. 
+- Motion detection triggers photo capture and **photo upload to a (PHP) web server**. 
+- Temperature sensor (**DS18B20**) readings are published using MQTT.
+- Runs a local webserver to allow realtime **video streaming** using e.g. MotionEye or Home Assistant (or just a browser).
+- Camera settings can be maintained using MQTT. Camera settings are used to initialize the camera after startup.
+- App configuration is maintained using MQTT. Configuration settings are used to initialize the device after startup. 
+- Camera and App settings are stored in **JSON 6** format files in **SPIFFs**, to make the settings persistant and survive restarts.
 - The board status, including WiFi strength, SoC Core temperature, time since last restart, etc. is published using MQTT.
 
 ## Wiring
@@ -32,7 +33,8 @@ Gnd | DS18B20 (-) Pin <br> AM312 (-) Pin <br> Power Source (-)
 ### Fritzing Diagram
 
 ![Fritzing Diagram](https://github.com/JJFourie/ESP32Cam-MQTT-SPIFFS-PIR/blob/main/Images/Fritzing_ESP32Cam_DS18B20_AM312_FTDI.png)
-- The white wires are only necessary when flashing the board with a new sketch, or when debugging in order to see the output of debug statements in the IDE.   
+- The white wires are only necessary when flashing the board with a new sketch, or when debugging in order to see the output of debug statements in the IDE.
+  **Note** Ensure your FTDI card pins match the layout in the diagram! My (fake?) card pin layout was the opposite, an exact mirror image of the most common cards.
 - After development, when the board is deployed, connect the *red* and *black* wires providing power from the FTDI board during programing, to the positive (+) and ground (-) of a suitable 5V external power source.
 
 ## Camera Settings
@@ -70,35 +72,31 @@ set_framesize() |	Resolution (0-10) | 10	UXGA(1600x1200) <br> 9	SXGA(1280x1024) 
 - [OV2640](https://www.uctronics.com/download/cam_module/OV2640DS.pdf)
 - [RandomNerdTutorials](https://randomnerdtutorials.com/esp32-cam-ov2640-camera-settings/)
 
+## MQTT Detail
+The ESP32-Cam interacts with the outside world using MQTT.
+The following is supported:
+- Publish 
+    1. Movement Detection (can be enabled/disabled)
+    2. Status Updates (periodic or when manually requested)
+    3. Configuration Settings (on configuration change, or when manually requested)
+    4. Camera Settings (only some key settings. when manually requested)
+- Subscribed 
+    1. Trigger to take photo
+    2. Update Camera settings (see table above)
+    3. Update ESP32-Cam Configuration settings
+    4. Request Status, Configuration
+    5. Restart ESP32-Cam
+See the [MQTT Readme](https://github.com/JJFourie/ESP32Cam-MQTT-SPIFFS-PIR/blob/main/MQTT/README.md) for detail on the MQTT setup and topics.
 
 ## Home Assistant Integration
 In my setup the ESP32-Cam is integrated with `Home Assistant` (HA), where the movement detection is displayed and the temperature readings are captured. Capturing a photo can also be triggered from HA via MQTT. 
-
-### 1. MQTT Auto-Discovery Messages
-Using the Mosquitto MQTT client (`mosquitto_pub`), auto-discovery topics can be published to automatically create the ESP32-Cam device and its related sensors in Home Assistant. See the MQTT folder.    
-(These commands could have been added to the sketch, but as this is a one-time action I decided it is not worth the effort and just clutters the final solution with unnecessary functionality that may or may not be used.)
-
-### 2. Button to trigger MQTT Message
-Some of the functionality of the sketch can be controlled or managed/changed through MQTT messages. 
-As an example of how to set this up, below is one solution how to create a momentary button in Home Assistant to send a MQTT message to the board to take a photo.
-
-### 3. WiFi Strength and other Board Status Detail
-The sketch can (configurable) periodically publish board status detail using MQTT. This information can then be displayed in Home Assistant as a HA **State** identity (see 1.).
-Information include e.g.
-1. RSSI
-2. Uptime
-3. Last Reset Reason
-4. SoC Core Temperature
-
-![HA Status Identity](https://github.com/JJFourie/ESP32Cam-MQTT-SPIFFS-PIR/blob/main/Images/HA_GateMonitor_Status.jpg)    
-    
-Image of the `Status` identity in Home Assistant.
+See the [Home Assistant Readme](https://github.com/JJFourie/ESP32Cam-MQTT-SPIFFS-PIR/blob/main/HomeAssistant/README.md) for more detail.
 
 ## Node Red Integration
 Some of the board automations are handled in `Node Red`.   
 See the [Node Red Readme](https://github.com/JJFourie/ESP32Cam-MQTT-SPIFFS-PIR/blob/main/NodeRed/README.md).
 
 ## PHP Server
-In my implementation the ESP32-Cam uploads captured photo's to a PHP server, from where each newly captured photo is uploaded to a Telegram bot.
+In my implementation the ESP32-Cam uploads captured photo's to a PHP server, from where `Node Red` will publish each newly captured photo to a Telegram bot.
 See the [PHP Readme](https://github.com/JJFourie/ESP32Cam-MQTT-SPIFFS-PIR/blob/main/PHP/README.md)
 
