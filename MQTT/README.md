@@ -1,9 +1,9 @@
 # Content
-- [A. MQTT Topics]()
-    - [Subscribed]()
-    - [Publised]()
-- [B. MQTT AutoDiscovery Topics](https://github.com/JJFourie/ESP32Cam-MQTT-SPIFFS-PIR/tree/main/MQTT#mqtt-auto-discovery-messages)
-- [C. Actual Example (Discovery)](https://github.com/JJFourie/ESP32Cam-MQTT-SPIFFS-PIR/tree/main/MQTT#actual-example-based-on-my-implementation)
+- [A. MQTT Topics](#a-mqtt-topics)
+    - [Subscribed](#subscribed)
+    - [Publised](#published)
+- [B. MQTT AutoDiscovery Topics](#mqtt-auto-discovery-messages)
+- [C. Actual Example (Discovery)](#actual-example-based-on-my-implementation)
 
 ---
 
