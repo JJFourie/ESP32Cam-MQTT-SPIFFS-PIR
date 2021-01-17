@@ -2,8 +2,8 @@
 - [A. MQTT Topics](#a-mqtt-topics)
     - [Subscribed](#subscribed)
     - [Publised](#published)
-- [B. MQTT AutoDiscovery Topics](#mqtt-auto-discovery-messages)
-- [C. Actual Example (Discovery)](#actual-example-based-on-my-implementation)
+- [B. MQTT AutoDiscovery Topics](#b-mqtt-auto-discovery-messages)
+- [C. Actual Example (Discovery)](#c-actual-example-based-on-my-implementation)
 
 ---
 
